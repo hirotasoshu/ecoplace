@@ -1,0 +1,7 @@
+@font-face {
+	font-family: 'Gilroy';
+	src:url('./gilroy/gilroy-medium.woff2') format('woff2'), /* Super Modern Browsers */
+		url('./gilroy/gilroy-medium.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+		url('./gilroy/gilroy-medium.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('./gilroy/gilroy-medium.svg#gilroy-medium') format('svg'); /* Chrome < 4, Legacy iOS */
+}
