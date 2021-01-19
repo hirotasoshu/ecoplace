@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "organizations"
+version = "0.1.0"
+description = ""
+authors = ["hirotasoshu <maksim.zaiakin@urfu.me>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.63.0"
+pydantic = "^1.7.3"
+tortoise-orm = {extras = ["asyncpg"], version = "^0.16.19"}
+flake8 = "^3.8.4"
+isort = "^5.7.0"
+yapf = "^0.30.0"
+python-language-server = "^0.36.2"
+python-multipart = "^0.0.5"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

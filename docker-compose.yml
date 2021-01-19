@@ -78,7 +78,7 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_USER=users_db_username
       - POSTGRES_PASSWORD=users_db_password
-      - POSTGRES_DB=users_db_dev
+      - POSTGRES_DB=users_db
     deploy:
       placement:
         constraints:
@@ -94,7 +94,7 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_USER=organizations_db_username
       - POSTGRES_PASSWORD=organizations_db_password
-      - POSTGRES_DB=organizations_db_dev
+      - POSTGRES_DB=organizations_db
     deploy:
       placement:
         constraints:
@@ -110,6 +110,8 @@ services:
       - SERVER_HOST=https://${DOMAIN?Variable not set}
       # Allow explicit env var override for tests
       - SMTP_HOST=${SMTP_HOST}
+      - DATABASE_URI=postgres://users_db_username:users_db_password@users-db/users_db
+
     build:
       context: ./backend/users
       dockerfile: users.dockerfile
@@ -132,6 +134,7 @@ services:
       - SERVER_HOST=https://${DOMAIN?Variable not set}
       # Allow explicit env var override for tests
       - SMTP_HOST=${SMTP_HOST}
+      - DATABASE_URI=postgres://organizations_db_username:organizations_db_password@organizations-db/organizations_db
     build:
       context: ./backend/organizations/
       dockerfile: organizations.dockerfile
