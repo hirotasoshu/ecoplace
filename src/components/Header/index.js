@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { createUseStyles } from 'react-jss';
+import axios from "axios";
+import { useCookies } from 'react-cookie';
 
 import Link from "../Buttons/Link";
 import LinkOnClick from "../Buttons/LinkOnClick";
 import DropDownDescription from "../../components/DropDownDescription";
+import Authorize from "../../components/Authorize";
+
 
 const useStyles = createUseStyles({
     header: {
@@ -40,6 +44,8 @@ const useStyles = createUseStyles({
 
 function Header() {
     const classes = useStyles();
+    const [cookies] = useCookies();
+
 
     return (
         <div className={classes.header}>
@@ -53,13 +59,20 @@ function Header() {
             </div>
 
             <div>
-                <DropDownDescription text="youremailhere@mail.com" >
-                    <div className={classes.dropMenu}>
-                        <Link text="Профиль" to="/profile" />
-                        <hr className={classes.greenLine} />
-                        <LinkOnClick text="Выход" onClick={() => console.log("Выход")} />
-                    </div>
-                </DropDownDescription>
+                { cookies.access_token 
+                    ?   <DropDownDescription text="youremailhere@mail.com" >
+                            <div className={classes.dropMenu}>
+                                <Link text="Профиль" to="/profile" />
+                                <hr className={classes.greenLine} />
+                                <LinkOnClick text="Выход" onClick={() => console.log("Выход")} />
+                            </div>
+                        </DropDownDescription>
+                    
+                    :   <DropDownDescription text="youremailhere@mail.com" >
+                            <Authorize />
+                        </DropDownDescription>
+
+                }
             </div>
 
         </div>
