@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { createUseStyles } from 'react-jss';
 
 import Topic from "../../components/Topic";
@@ -24,12 +25,29 @@ const tableColumns = [
 function Rating() {
     const classes = useStyles();
 
+    const [rows, setRows] = useState([]);
+
+    useEffect(() => {
+        axios.get("/api/organizations")
+            .then(res => {
+                setRows(res.data.map((data, index) => {
+                    return {
+                        number: index + 1,
+                        name: data.name,
+                        types: data.garbage_types.map(d => d.code),
+                        rating: data.rating,
+                    }
+                }))
+            })
+            .catch(e => console.log(e))
+    }, []);
+
     return (
         <div className={classes.rating}>
             <Topic text="РЕЙТИНГ ОРГАНИЗАЦИЙ" />
             
             <div className={classes.tableContainer}>
-                <Table columns={tableColumns} />
+                <Table columns={tableColumns} rows={rows} />
             </div>
 
         </div>

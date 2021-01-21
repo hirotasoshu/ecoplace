@@ -155,7 +155,7 @@ function Profile() {
                     <div className={classes.about}>
                         <div className={classes.title2}>
                             <span className={classes.titleText2}>О компании</span>
-                                {editAboutText
+                                {true
                                     ? <div className={classes.editButtons}>
                                         <Button text="Сохранить" style={{padding: "10px 10px"}} onClick={() => {setEditAboutText(false); setAboutText(newAboutText)}} />
                                         <Button text="Отмена" style={{padding: "10px 10px"}} onClick={() => {setEditAboutText(false); setNewAboutText(aboutText)}} />
@@ -166,7 +166,7 @@ function Profile() {
                         </div>
 
                         <div className={classes.descriptionAbout}>
-                            {editAboutText 
+                            {true 
                                 ? <InputText onChange={(v) => setNewAboutText(v)} init={aboutText} type="textarea" />
                                 : aboutText}
                         </div>
@@ -236,25 +236,15 @@ function Profile() {
 
                 <div className={classes.description} style={{paddingLeft: 20}}>
                     <div className={classes.info}>
-                        {editLogin
-                            ? <InputText label="Логин" init={login} onChange={(v) => setEditLogin(v)} onSubmit={() => {setLogin(editLogin); setEditLogin(false)}} onClose={() => {setEditLogin(false)}} /> 
-                            : <span style={{cursor: "pointer"}} onClick={() => setEditLogin(true)}>Логин: {login}</span>}
+                        <InputText label="Логин" init={login} onChange={(v) => setEditLogin(v)} onSubmit={() => {setLogin(editLogin); setEditLogin(false)}} onClose={() => {setEditLogin(false)}} />
 
-                        {editHouse
-                            ? <InputText label="Дом" init={house} onChange={(v) => setEditHouse(v)} onSubmit={() => {setHouse(editHouse); setEditHouse(false)}} onClose={() => {setEditHouse(false)}} /> 
-                            : <span style={{cursor: "pointer"}} onClick={() => setEditHouse(true)}>Дом: {house}</span>}
+                        <InputText label="Дом" init={house} onChange={(v) => setEditHouse(v)} onSubmit={() => {setHouse(editHouse); setEditHouse(false)}} onClose={() => {setEditHouse(false)}} />
 
-                        {editStreet
-                            ? <InputText label="Улица" init={street} onChange={(v) => setEditStreet(v)} onSubmit={() => {setStreet(editStreet); setEditStreet(false)}} onClose={() => {setEditStreet(false)}} /> 
-                            : <span style={{cursor: "pointer"}} onClick={() => setEditStreet(true)}>Улица: {street}</span>}
+                        <InputText label="Улица" init={street} onChange={(v) => setEditStreet(v)} onSubmit={() => {setStreet(editStreet); setEditStreet(false)}} onClose={() => {setEditStreet(false)}} />
 
-                        {editOffice
-                            ? <InputText label="Офис" init={office} onChange={(v) => setEditOffice(v)} onSubmit={() => {setOffice(editOffice); setEditOffice(false)}} onClose={() => {setEditOffice(false)}} /> 
-                            : <span style={{cursor: "pointer"}} onClick={() => setEditOffice(true)}>Офис: {office}</span>}
+                        <InputText label="Офис" init={office} onChange={(v) => setEditOffice(v)} onSubmit={() => {setOffice(editOffice); setEditOffice(false)}} onClose={() => {setEditOffice(false)}} />
 
-                        {editTelNumber
-                            ? <InputText label="Телефон" init={telNumber} onChange={(v) => setEditTelNumber(v)} onSubmit={() => {setTelNumber(editTelNumber); setEditTelNumber(false)}} onClose={() => {setEditTelNumber(false)}} /> 
-                            : <span style={{cursor: "pointer"}} onClick={() => setEditTelNumber(true)}>Телефон: {telNumber}</span>}
+                        <InputText label="Телефон" init={telNumber} onChange={(v) => setEditTelNumber(v)} onSubmit={() => {setTelNumber(editTelNumber); setEditTelNumber(false)}} onClose={() => {setEditTelNumber(false)}} />
                     </div>
 
                 </div>

@@ -32,7 +32,7 @@ const typeColors = {
     "Картон и бумага": "#B557C7",
 }
 
-const Table = React.memo(({ columns }) => {
+const Table = React.memo(({ columns, rows }) => {
     const classes = useStyles();
 
     return (
@@ -48,16 +48,12 @@ const Table = React.memo(({ columns }) => {
             <tbody>
                 <br />            
                 {
-                    [
-                        {number: 1, name: "Экоменеджмент", types: ["Стекло", "Пластик"], rating: 4.7},
-                        {number: 2, name: "Экоменеджмент", types: ["Картон и бумага", "Металл", "Пластик"], rating: 3.7}
-                    ]
-                    .map((row) => <tr className={classes.row}>
+                    rows.map((row) => <tr className={classes.row}>
                                     {columns.map((col) => <th key={col}>
                                         <div className={col.name === "types" ? classes.cellOfTypes : null}>
                                             {
                                                 (col.name === "types"
-                                                    ? row[col.name].map((type) => <TypeOfWaste text={type} color={typeColors[type] || "#24C2F4"} size="small" />)
+                                                    ? row[col.name].map((type) => <TypeOfWaste text={type} color={"#24C2F4"} />)
                                                     : row[col.name])
                                             }
                                         </div>
