@@ -28,11 +28,16 @@ const Authorize = React.memo(() => {
             username: login,
             password: password,
         };
+
+        console.log(username, password);
+
         const json = JSON.stringify(body);
         const blob = new Blob([json], {
             type: 'application/json'
         });
+        console.log(blob)
         const data = new FormData();
+        console.log(data)
         data.append("document", blob);
 
         axios({
