@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createUseStyles } from 'react-jss';
 import Button from "../../components/Buttons/Button";
+import { useCookies } from 'react-cookie';
+import axios from "axios";
 
 import Topic from "../../components/Topic";
 import TypeOfWaste from "../../components/TypeOfWaste";
@@ -98,7 +100,9 @@ const useStyles = createUseStyles({
 });
 function Profile() {
     const classes = useStyles();
-    const [aboutText, setAboutText] = useState("ООО «Экоменеджмент» является одной из крупных и динамично развивающихся компаний, работающих на территории всей Российской Федерации. Основным направлением деятельности является осуществление и организация деятельности по сбору, транспортировке, использованию, размещению, обезвреживанию, утилизации промышленных отходов. Указанные виды работ ведутся по установленным государственным стандартам на основе действующего законодательства.")
+    const [cookies] = useCookies();
+
+    const [aboutText, setAboutText] = useState("")
     const [newAboutText, setNewAboutText] = useState("");
     const [editAboutText, setEditAboutText] = useState(false);
     const [types, setTypes] = useState([]);
@@ -119,6 +123,45 @@ function Profile() {
 
     const [telNumber, setTelNumber] = useState("");
     const [editTelNumber, setEditTelNumber] = useState(false);
+
+    useEffect(() => {
+        axios.get("/api/organizations/me", {
+            headers: {
+                Authorization: 'Bearer' + cookies.access_token,
+            }
+        })
+        .then(res => {
+            setLogin(res.login);
+            setHouse(res.address.house);
+            setStreet(res.address.street);
+            setOffice(res.address.office);
+            setTelNumber(res.phone_number);
+            setAboutText(res.description);
+            setTypes(res.garbage_types);
+        })
+    }, []);
+
+    const saveOption = (fieldName, value) => {
+        axios.patch("/api/organizations/me", {
+            [fieldName]: value, 
+        }, {
+            headers: {
+                Authorization: "Bearer" + cookies.access_token,
+            }
+        })
+    };
+
+    const saveOption2 = (fieldName1, fieldName2, value) => {
+        axios.patch("/api/organizations/me", {
+            [fieldName1]: {
+                [fieldName2] : value,
+            },
+        }, {
+            headers: {
+                Authorization: "Bearer" + cookies.access_token,
+            }
+        })
+    };
 
     const onChoose = (type) => {
         let temp = types.slice();
@@ -236,15 +279,15 @@ function Profile() {
 
                 <div className={classes.description} style={{paddingLeft: 20}}>
                     <div className={classes.info}>
-                        <InputText label="Логин" init={login} onChange={(v) => setEditLogin(v)} onSubmit={() => {setLogin(editLogin); setEditLogin(false)}} onClose={() => {setEditLogin(false)}} />
+                        <InputText label="Логин" init={login} onChange={(v) => setEditLogin(v)} onSubmit={() => {saveOption("login", editLogin)}} onClose={() => {setEditLogin(false)}} />
 
-                        <InputText label="Дом" init={house} onChange={(v) => setEditHouse(v)} onSubmit={() => {setHouse(editHouse); setEditHouse(false)}} onClose={() => {setEditHouse(false)}} />
+                        <InputText label="Дом" init={house} onChange={(v) => setEditHouse(v)} onSubmit={() => {saveOption2("address", "house", editHouse)}} onClose={() => {setEditHouse(false)}} />
 
-                        <InputText label="Улица" init={street} onChange={(v) => setEditStreet(v)} onSubmit={() => {setStreet(editStreet); setEditStreet(false)}} onClose={() => {setEditStreet(false)}} />
+                        <InputText label="Улица" init={street} onChange={(v) => setEditStreet(v)} onSubmit={() => {saveOption2("address", "street", editStreet)}} onClose={() => {setEditStreet(false)}} />
 
-                        <InputText label="Офис" init={office} onChange={(v) => setEditOffice(v)} onSubmit={() => {setOffice(editOffice); setEditOffice(false)}} onClose={() => {setEditOffice(false)}} />
+                        <InputText label="Офис" init={office} onChange={(v) => setEditOffice(v)} onSubmit={() => {saveOption2("address", "office", editOffice)}} onClose={() => {setEditOffice(false)}} />
 
-                        <InputText label="Телефон" init={telNumber} onChange={(v) => setEditTelNumber(v)} onSubmit={() => {setTelNumber(editTelNumber); setEditTelNumber(false)}} onClose={() => {setEditTelNumber(false)}} />
+                        <InputText label="Телефон" init={telNumber} onChange={(v) => setEditTelNumber(v)} onSubmit={() => {saveOption("phone_number", editTelNumber)}} onClose={() => {setEditTelNumber(false)}} />
                     </div>
 
                 </div>

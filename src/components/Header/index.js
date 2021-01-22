@@ -44,15 +44,16 @@ const useStyles = createUseStyles({
 
 function Header() {
     const classes = useStyles();
-    const [cookies] = useCookies();
+    const [cookies, _, removeCookies] = useCookies();
 
+    // _("access_token", 123);
 
     return (
         <div className={classes.header}>
             <span className={classes.logoText}>ECOPLACE</span>
             
             <div className={classes.navigation}>
-                <Link text="Профиль" to="/profile" />
+                {cookies.access_token ? <Link text="Профиль" to="/profile" /> : null}
                 <Link text="Рейтинг" to="/rating" />
                 <Link text="FAQ" to="/faq" />
                 <Link text="О проекте" to="/" />
@@ -64,7 +65,10 @@ function Header() {
                             <div className={classes.dropMenu}>
                                 <Link text="Профиль" to="/profile" />
                                 <hr className={classes.greenLine} />
-                                <LinkOnClick text="Выход" onClick={() => console.log("Выход")} />
+                                <LinkOnClick text="Выход" onClick={() => {
+                                    removeCookies("access_token");
+                                    removeCookies("token_type");
+                                }} />
                             </div>
                         </DropDownDescription>
                     

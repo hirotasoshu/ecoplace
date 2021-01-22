@@ -5,6 +5,8 @@ const useStyles = createUseStyles({
     footer: {
         width: "100%",
         height: "max-content",
+        position: "absolute",
+        bottom: 0,
         textAlign: "center",
         backgroundColor: "#25BA00",
         padding: "5px 0",

@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { createUseStyles } from 'react-jss';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import { useCookies } from 'react-cookie';
 
 import About from "./pages/About";
 import Profile from "./pages/Profile";
@@ -28,13 +29,14 @@ const useStyles = createUseStyles({
 
 function App() {
     const classes = useStyles();
+    const [cookies] = useCookies();
 
     return (
         <div className={classes.App}>
             <div className={classes.AppInner}>
                 <Header />
                 <Route exact path="/" component={About} />
-                <Route exact path="/profile" component={Profile} />
+                {cookies.access_token ? <Route exact path="/profile" component={Profile} /> : null}
                 <Route exact path="/faq" component={FAQ} />
                 <Route exact path="/rating" component={Rating} />
                 <Route exact path="/registration" component={Registration} />
