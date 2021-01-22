@@ -36,7 +36,7 @@ function App() {
             <div className={classes.AppInner}>
                 <Header />
                 <Route exact path="/" component={About} />
-                {cookies.access_token ? <Route exact path="/profile" component={Profile} /> : null}
+                {cookies.access_token ? <Route exact path="/profile" component={props => Profile(props)} /> : null}
                 <Route exact path="/faq" component={FAQ} />
                 <Route exact path="/rating" component={Rating} />
                 <Route exact path="/registration" component={Registration} />

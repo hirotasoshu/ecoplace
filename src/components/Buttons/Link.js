@@ -16,11 +16,14 @@ const useStyles = createUseStyles({
     },
 });
 
-const Link = React.memo(({ text, to }) => {
+const Link = React.memo(({ text, to, data }) => {
     const classes = useStyles();
     const [redirect, setRedirect] = useState(false);
     
-    if (redirect) return <Redirect to={to} />;
+    if (redirect) return <Redirect to={{
+        pathname: to,
+        state: data,
+    }} />;
 
     return (
         <div onClick={() => {

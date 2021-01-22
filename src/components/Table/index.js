@@ -1,5 +1,6 @@
 import React from "react";
 import { createUseStyles } from 'react-jss';
+import Link from "../Buttons/Link";
 
 import TypeOfWaste from "../../components/TypeOfWaste";
 
@@ -54,7 +55,9 @@ const Table = React.memo(({ columns, rows }) => {
                                             {
                                                 (col.name === "types"
                                                     ? row[col.name].map((type) => <TypeOfWaste text={type} color={"#24C2F4"} />)
-                                                    : row[col.name])
+                                                    : col.name === "name"
+                                                        ? <Link text={row[col.name]} to="/profile" data={{id: row.id}} />
+                                                        : row[col.name])
                                             }
                                         </div>
                                     </th> )}

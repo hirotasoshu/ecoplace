@@ -24,10 +24,6 @@ const Authorize = React.memo(() => {
     const [password, setPassword] = useState("");
 
     const authorize = () => {
-        let body = {
-            username: login,
-            password: password,
-        };
 
         const data = new FormData();
         data.append("username", login)
@@ -41,6 +37,7 @@ const Authorize = React.memo(() => {
         .then(res => {
             setCookies("access_token", res.data.access_token);
             setCookies("token_type", res.data.token_type);
+            setCookies("login", login);
         })
         .catch(e => console.log(e))
     }; 

@@ -36,6 +36,7 @@ function Rating() {
                         name: data.name,
                         types: data.garbage_types.map(d => d.code),
                         rating: data.rating,
+                        id: data.id,
                     }
                 }))
             })

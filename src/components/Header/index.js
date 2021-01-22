@@ -7,6 +7,7 @@ import Link from "../Buttons/Link";
 import LinkOnClick from "../Buttons/LinkOnClick";
 import DropDownDescription from "../../components/DropDownDescription";
 import Authorize from "../../components/Authorize";
+import { cookie } from "request-promise-native";
 
 
 const useStyles = createUseStyles({
@@ -72,7 +73,7 @@ function Header() {
                             </div>
                         </DropDownDescription>
                     
-                    :   <DropDownDescription text="youremailhere@mail.com" >
+                    :   <DropDownDescription text={cookie.access_token ? cookies.login : "Авторизоваться"} >
                             <Authorize />
                         </DropDownDescription>
 
