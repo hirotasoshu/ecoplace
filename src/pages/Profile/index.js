@@ -326,7 +326,7 @@ function Profile() {
                             <div className={classes.link}>
                                 {editTypes
                                     ? <div className={classes.editButtons}>
-                                        <Button text="Сохранить" style={{padding: "10px 10px"}} onClick={() => {saveOption1("garbage_type_ids", editTypes.map(t => t.id))}} />
+                                        <Button text="Сохранить" style={{padding: "10px 10px"}} onClick={() => {saveOption("garbage_type_ids", editTypes.map(t => t.id))}} />
                                         <Button text="Отмена" style={{padding: "10px 10px"}} onClick={() => setEditTypes(false)} />
                                       </div>
                                     : <span onClick={() => setEditTypes(true)} className={classes.link}>Редактировать</span>}
