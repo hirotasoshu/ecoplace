@@ -8,6 +8,7 @@ import Topic from "../../components/Topic";
 import TypeOfWaste from "../../components/TypeOfWaste";
 import InputText from "../../components/InputText";
 import ChooseTypeOfWaste from "../../components/ChooseTypeOfWaste";
+import { object } from "webidl-conversions";
 
 const useStyles = createUseStyles({
     profile: {
@@ -105,9 +106,13 @@ function Profile() {
     const [aboutText, setAboutText] = useState("")
     const [newAboutText, setNewAboutText] = useState("");
     const [editAboutText, setEditAboutText] = useState(false);
-    const [types, setTypes] = useState([]);
+    const [types, setTypes] = useState([{
+        id: 2,
+        code: 'PE-HD-2',
+        name: 'Полиэтилен высокой плотности'
+      }]);
     const [newTypes, setNewTypes] = useState([]);
-    const [editTypes, setEditTypes] = useState(false);
+    const [editTypes, setEditTypes] = useState([]);
 
     const [login, setLogin] = useState("");
     const [editLogin, setEditLogin] = useState(false);
@@ -141,6 +146,104 @@ function Profile() {
         })
     }, []);
 
+    useEffect(() => {
+        let temp = editTypes.slice();
+        types.forEach((type) => {
+            let t = allTypes.find((i) => {
+                return i.id === type.id
+            })
+
+            if (t) temp.push(type);
+        })
+        
+        setEditTypes(temp);
+        
+    }, [types]);
+
+    console.log(editTypes)
+
+    const allTypes = [{
+        id: 1,
+        code: 'PET-1',
+        name: 'Полиэтилентерефталат'
+      },{
+        id: 2,
+        code: 'PE-HD-2',
+        name: 'Полиэтилен высокой плотности'
+      },{
+        id: 3,
+        code: 'PVC-3',
+        name: 'Поливинилхлорид'
+      },{
+        id: 4,
+        code: 'PE-LD-4',
+        name: 'Полиэтилен низкой плотности'
+      },{
+        id: 5,
+        code: 'PP-5',
+        name: 'Полипропилен'
+      },{
+        id: 6,
+        code: 'PS-6',
+        name: 'Полистирол'
+      },{
+        id: 7,
+        code: 'O-7',
+        name: 'Прочие пластмассы'
+      }, {
+        id: 8,
+        code: 'ABS',
+        name: 'Акрилонитрилбутадиенстирол'
+      },{
+        id: 9,
+        code: 'PAP-20',
+        name: 'Гофрокартон'
+      },{
+        id: 10,
+        code: 'PAP-21 ',
+        name: 'Картон'
+      }, {
+        id: 11,
+        code: 'PAP-22',
+        name: 'Бумага'
+      },{
+        id: 12,
+        code: 'FE-40',
+        name: 'Сталь'
+      },{
+        id: 13,
+        code: 'ALU-41',
+        name: 'Алюминий'
+      },{
+        id: 14,
+        code: 'FOR-50',
+        name: 'Древесина'
+      },{
+        id: 15,
+        code: 'FOR-51',
+        name: 'Пробка'
+      },{
+        id: 16,
+        code: 'TEX-60',
+        name: 'Одежда'
+      }, {
+        id: 17,
+        code: 'TEX-61',
+        name: 'Джут'
+      }, {
+        id: 18,
+        code: 'GL-70',
+        name: 'Стекло'
+      }, {
+        id: 19,
+        code: 'PapPet-81',
+        name: ' Комбинированные материалы'
+      },{
+        id: 20,
+        code: 'C/PAP-84',
+        name: 'Комбинированные материалы'
+      }];
+
     const saveOption = (fieldName, value) => {
         axios.patch("/api/organizations/me", {
             [fieldName]: value, 
@@ -164,16 +267,16 @@ function Profile() {
     };
 
     const onChoose = (type) => {
-        let temp = types.slice();
+        let temp = editTypes.slice();
         temp.push(type);
-        setTypes(temp);
+        setEditTypes(temp);
     }
 
     const onUnChoose = (type) => {
-        let temp = types.slice();
+        let temp = editTypes.slice();
         let index = temp.indexOf(type);
         temp.splice(index, 1);
-        setTypes(temp);
+        setEditTypes(temp);
     }
 
     return(
@@ -223,7 +326,7 @@ function Profile() {
                             <div className={classes.link}>
                                 {editTypes
                                     ? <div className={classes.editButtons}>
-                                        <Button text="Сохранить" style={{padding: "10px 10px"}} onClick={() => {setEditTypes(false)}} />
+                                        <Button text="Сохранить" style={{padding: "10px 10px"}} onClick={() => {saveOption1("garbage_type_ids", editTypes.map(t => t.id))}} />
                                         <Button text="Отмена" style={{padding: "10px 10px"}} onClick={() => setEditTypes(false)} />
                                       </div>
                                     : <span onClick={() => setEditTypes(true)} className={classes.link}>Редактировать</span>}
@@ -231,47 +334,21 @@ function Profile() {
                         </div>
 
                         <div className={classes.typesContainer}>
-                            <ChooseTypeOfWaste onChoose={(v) => onChoose(v)}
-                                               onUnChoose ={(v) => onUnChoose(v)}
-                                               type="Стекло"
-                                               alreadyChoosed>
-                            <TypeOfWaste text="Стекло" color="#24C2F4" />
-                            </ChooseTypeOfWaste>
-                                    
-                            <ChooseTypeOfWaste onChoose={(v) => onChoose(v)}
-                                               onUnChoose ={(v) => onUnChoose(v)}
-                                               type="Пластик"
-                                               alreadyChoosed>
-                            <TypeOfWaste text="Пластик" color="#F4B924" />
-                            </ChooseTypeOfWaste>
-
-                            <ChooseTypeOfWaste onChoose={(v) => onChoose(v)}
-                                               onUnChoose ={(v) => onUnChoose(v)}
-                                               type="Металл"
-                                               alreadyChoosed>
-                            <TypeOfWaste text="Металл" color="#7776C4" />
-                            </ChooseTypeOfWaste>
-
-                            <ChooseTypeOfWaste onChoose={(v) => onChoose(v)}
-                                               onUnChoose ={(v) => onUnChoose(v)}
-                                               type="ПВХ"
-                                               alreadyChoosed>
-                            <TypeOfWaste text="ПВХ" color="#C4768D" />
-                            </ChooseTypeOfWaste>
-
-                            <ChooseTypeOfWaste onChoose={(v) => onChoose(v)}
-                                               onUnChoose ={(v) => onUnChoose(v)}
-                                               type="Картон и бумага"
-                                               alreadyChoosed>
-                            <TypeOfWaste text="Картон и бумага" color="#B557C7" />
-                            </ChooseTypeOfWaste>
-
-                            <ChooseTypeOfWaste onChoose={(v) => onChoose(v)}
-                                               onUnChoose ={(v) => onUnChoose(v)}
-                                               type="Картон и бумага"
-                                               alreadyChoosed>
-                            <TypeOfWaste text="Картон и бумага" color="#76C47E" />
-                            </ChooseTypeOfWaste>
+                            {
+                                allTypes.map(type => {
+                                    return <ChooseTypeOfWaste onChoose={(v) => onChoose(v)}
+                                                              onUnChoose ={(v) => onUnChoose(v)}
+                                                              type={type}
+                                                              alreadyChoosed={types.find(t => {
+                                                                if (t.id === type.id) {
+                                                                    
+                                                                    return true
+                                                                }
+                                                              })}>
+                                                <TypeOfWaste text={type.name} color="#24C2F4" />
+                                            </ChooseTypeOfWaste>
+                                })
+                            }
 
                         </div>
                     </div>
